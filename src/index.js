@@ -1,12 +1,65 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const Header = (props) => {
+    console.log(props)
+    return (
+        <div>
+            <h1>{props.course.name}</h1>
+        </div>
+    )
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const Content = (props) => {
+    let { course } = props
+    let value = 0
+    return(
+        <div>
+            { course.parts.map(content => <p key={ value += 1 }>{content.name} {content.exercises}</p> ) }
+        </div> 
+    )
+}
+
+const Total = (props) => {
+    const { course } = props
+    var total = 0
+    course.forEach(element => {
+        total += element.exercises
+    });
+    return (
+        <div>
+            <p>Number of exercises { total } </p>
+        </div>
+    )
+}
+
+const App = () => {
+    const course = {
+        name: 'Half Stack application development',
+        parts: [
+          {
+            name: 'Fundamentals of React',
+            exercises: 10
+          },
+          {
+            name: 'Using props to pass data',
+            exercises: 7
+          },
+          {
+            name: 'State of a component',
+            exercises: 14
+          }
+        ]
+    }
+
+  return (
+    <div>
+        <Header course={course} />
+        <Content course={course} />
+        <Total course={course} />
+        
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
